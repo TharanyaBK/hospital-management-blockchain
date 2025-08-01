@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hospital Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <script>
+        function showSection(id) {
+            document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
+            document.getElementById(id).style.display = "block";
+        }
+
+        window.onload = () => showSection("viewPatients");
+    </script>
+</head>
+<body class="p-4">
+
+<h2 class="text-center mb-4">🏥 Hospital Blockchain Dashboard</h2>
+
+<div class="btn-group mb-4">
+    <button class="btn btn-primary" onclick="showSection('viewPatients')">View Patients</button>
+    <button class="btn btn-success" onclick="showSection('addPatient')">Add Patient</button>
+    <button class="btn btn-dark" onclick="showSection('viewBlockchain')">View Blockchain</button>
+</div>
+
+<!-- View Patients -->
+<div id="viewPatients" class="section">
+    <h4>👩‍⚕️ Patient List</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr><th>Name</th><th>Age</th><th>Gender</th><th>Disease</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.name}"></td>
+            <td th:text="${patient.age}"></td>
+            <td th:text="${patient.gender}"></td>
+            <td th:text="${patient.disease}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Patient -->
+<div id="addPatient" class="section" style="display:none">
+    <h4>➕ Add New Patient</h4>
+    <form th:action="@{/patients/save}" th:object="${patient}" method="post">
+        <div class="mb-2"><input type="text" th:field="*{name}" placeholder="Name" class="form-control" required /></div>
+        <div class="mb-2"><input type="number" th:field="*{age}" placeholder="Age" class="form-control" required /></div>
+        <div class="mb-2"><input type="text" th:field="*{gender}" placeholder="Gender" class="form-control" required /></div>
+        <div class="mb-2"><input type="text" th:field="*{disease}" placeholder="Disease" class="form-control" required /></div>
+        <button class="btn btn-success">Save Patient</button>
+    </form>
+</div>
+
+<!-- View Blockchain -->
+<div id="viewBlockchain" class="section" style="display:none">
+    <h4>🔗 Blockchain</h4>
+    <table class="table table-bordered">
+        <thead>
+        <tr><th>Index</th><th>Hash</th><th>Previous Hash</th><th>Timestamp</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="block, iterStat : ${blockchain}">
+            <td th:text="${iterStat.index}"></td>
+            <td th:text="${block.hash}"></td>
+            <td th:text="${block.previousHash}"></td>
+            <td th:text="${block.timestamp}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
