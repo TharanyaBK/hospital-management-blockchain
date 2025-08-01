@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blockchain View</title>
+</head>
+<body>
+<h1>Blockchain Data</h1>
+<table border="1">
+    <tr>
+        <th>Index</th>
+        <th>Hash</th>
+        <th>Previous Hash</th>
+        <th>Timestamp</th>
+    </tr>
+    <tr th:each="block, iterStat : ${blockchain}">
+        <td th:text="${iterStat.index}"></td>
+        <td th:text="${block.hash}"></td>
+        <td th:text="${block.previousHash}"></td>
+        <td th:text="${#dates.format(block.timestamp, 'dd-MM-yyyy HH:mm:ss')}"></td>
+    </tr>
+</table>
+</body>
+</html>
